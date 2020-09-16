@@ -2,8 +2,8 @@
 if(isset($_POST['submit_row']))
 {
  $servername = "localhost";
- $username = "root";
- $password = "";
+ $username = "ias2020";
+ $password = "ecell123";
  $dbname = "iasdb";
 
 
