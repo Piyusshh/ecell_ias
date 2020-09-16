@@ -1,75 +1,58 @@
-<?php
-require_once('config.php');
-?>
+<html>
 
-
-
-
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User registration</title>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-grid.min.css">
-</head>
-<body>
-
-    <div>
-        <?php
-            if(isset($_POST['create'])){
-                $firstname = $_POST['firstname'];
-                $lastname = $_POST['lastname'];
-                $email = $_POST['email'];
-                $phonenumber = $_POST['phonenumber'];
-                $lastname = $_POST['lastname'];
-                $password = $_POST['password'];
-
-
-                $sql = "INSERT INTO registrations (firstname, lastname, email, phonenumber, password ) VALUES(?,?,?,?,?)";
-                $stmtinsert = $db->prepare($sql);
-                $result = $stmtinsert->execute([$firstname, $lastname, $email, $phonenumber, $password]);
-                if($result){
-                    echo 'Successfully Saved';
-                }else{
-                    echo " there are errors while saving the data";
+        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript">
+            function add_row()
+            {
+                $rowno=$("#employee_table tr").length;
+                if($rowno<5){
+                $rowno=$rowno+1;
+                $("#employee_table tr:last").after("<tr id='row"+$rowno+"'><td></td><td><input type='text' name='name[]' placeholder='Enter Name'></td><td><input type='number' name='age[]' placeholder='Enter Phone Number'></td><td><input type='email' name='job[]' placeholder='Enter Email'></td><td><input type='button' value='DELETE' onclick=delete_row('row"+$rowno+"')></td></tr>");
                 }
-                
-                echo $firstname;
-                echo $lastname;
-                echo $email;
-                echo $phonenumber;
-                echo $password;
             }
-        ?>
-    </div>
+            function delete_row(rowno)
+            {
+                $('#'+rowno).remove();    
+            }
+        </script>
+</head>
 
-    <form action="index.php" method="post">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-3">
-                    <h1>Registration</h1>
-                    <p>Fill up the form with correct values</p>
-                    <hr class="mb-3">
-                    <label for="firstname"><b>First Name</b></label>
-                    <input class="form-control" type="text" name="firstname" required>
-
-                    <label for="lastname"><b>Last Name</b></label>
-                    <input class="form-control" type="text" name="lastname" required>
-
-                    <label for="email"><b>Email address</b></label>
-                    <input class="form-control" type="email" name="email" required>
-
-                    <label for="phonenumber"><b>phone number</b></label>
-                    <input class="form-control" type="text" name="phonenumber" required>
-
-                    <label for="firstname"><b>password</b></label>
-                    <input class="form-control" type="password" name="password" required>
-                    <hr class="mb-3">
-                    <input class="btn btn-primary" type="submit" name="create" value="Sign Up">
-                </div>
-            </div>
+<body>
+    <div id="wrapper">
+        <div id="form_div">
+            <form method="post" action="store_detail.php">
+                <table>
+                    <tr>
+                        <td>StartUp Name/ Idea:</td>
+                        <td><input type="text" name="startidea" placeholder="Startup Idea" required></td>
+                    </tr>
+                    <tr>
+                        <td>StartUp/ Idea Description:</td>
+                        <td><input type="text" name="startdesc" placeholder="Startup Description" required></td>
+                    </tr>
+                    <tr>
+                        <td>ID Number(Leader):</td>
+                        <td><input type="number" name="leaderid" placeholder="Leader ID" required></td>
+                    </tr>
+                    <tr>
+                        <td>Roll number(Leader):</td>
+                        <td><input type="number" name="leaderrollno" placeholder="Leader Roll number" required></td>
+                    </tr>
+                </table>
+                <table id="employee_table">
+                    <tr id="row1">
+                        <td>Team member details (Name, phone number, email id):</td>
+                        <td><input type="text" name="name[]" placeholder="Enter Name"></td>
+                        <td><input type="text" name="age[]" placeholder="Enter Phone Number"></td>
+                        <td><input type="text" name="job[]" placeholder="Enter Email"></td>
+                    </tr>
+                </table>
+                <input type="button" onclick="add_row();" value="ADD ROW">
+                <input type="submit" name="submit_row" value="SUBMIT">
+            </form>
         </div>
-    </form>
+    </div>
 </body>
+
 </html>
